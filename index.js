@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
+const error = require("./utilities/error");
+
 // Importing the data from database files.
 const users = require("./data/users");
 const posts = require("./data/posts");
@@ -51,7 +53,13 @@ app.get("/", (req, res) => {
 app.use((req, res) => {
     res.status(404);
     res.json({ error: "Resource Not Found" });
-  });
+});
+
+// Error-handling middleware.
+app.use((err, req, res, next) => {
+    res.status(err.status || 500);
+    res.json({ error: err.message });
+});
 
 app.listen(port, () => {
     console.log(`Server listening on port: ${port}.`);
