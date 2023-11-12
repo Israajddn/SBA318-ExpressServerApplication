@@ -47,6 +47,12 @@ app.get("/", (req, res) => {
     res.send("Home Page");
 });
 
+// Custom 404 (not found) middleware.
+app.use((req, res) => {
+    res.status(404);
+    res.json({ error: "Resource Not Found" });
+  });
+
 app.listen(port, () => {
     console.log(`Server listening on port: ${port}.`);
 });
