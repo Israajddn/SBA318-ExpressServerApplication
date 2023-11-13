@@ -9,6 +9,14 @@ const users = require("./data/users");
 const posts = require("./data/posts");
 const comments = require("./data/comments");
 
+// Custom logging requests middleware.
+const logReq = function (req, res, next) {
+    console.log("Request Received");
+    next();
+};
+
+app.use(logReq);
+
 // Creating a GET route for the entire users database.
 app.get("/api/users", (req, res) => {
     res.json(users);
