@@ -5,9 +5,9 @@ const port = 3000;
 const error = require("./utilities/error");
 
 // Importing the data from database files.
-const users = require("./data/users");
-const posts = require("./data/posts");
-const comments = require("./data/comments");
+const usersRoutes = require("./routes/usersRoutes");
+const postsRoutes = require("./routes/postsRoutes");
+const commentsRoutes = require("./routes/commentsRoutes");
 
 // Custom logging requests middleware.
 const logReq = function (req, res, next) {
@@ -17,41 +17,12 @@ const logReq = function (req, res, next) {
 
 app.use(logReq);
 
-// Creating a GET route for the entire users database.
-app.get("/api/users", (req, res) => {
-    res.json(users);
-});
+// Use our Routes
+app.use("/api/users", usersRoutes);
+app.use("/api/posts", postsRoutes);
+app.use("/api/comments", commentsRoutes)
 
-// Creating a simple GET route for individual users,
-// using a route parameter for the unique id.
-app.get("/api/users/:id", (req, res) => {
-    const user = users.find((u) => u.id == req.params.id);
-    if (user) res.json(user);
-});
 
-// Creating a GET route for the entire posts database.
-app.get("/api/posts", (req, res) => {
-    res.json(posts);
-});
-
-// Creating a simple GET route for individual posts,
-// using a route parameter for the unique id.
-app.get("/api/posts/:id", (req, res) => {
-    const post = posts.find((p) => p.id == req.params.id);
-    if (post) res.json(post);
-});
-
-// Creating a GET route for the entire comments database.
-app.get("/api/comments", (req, res) => {
-    res.json(comments);
-});
-
-// Creating a simple GET route for individual comments,
-// using a route parameter for the unique id.
-app.get("/api/comments/:id", (req, res) => {
-    const comment = comments.find((c) => c.id == req.params.id);
-    if (comment) res.json(comment);
-});
 
 app.get("/", (req, res) => {
     res.send("Home Page");
