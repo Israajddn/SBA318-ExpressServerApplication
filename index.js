@@ -4,6 +4,8 @@ const port = 3000;
 
 const error = require("./utilities/error");
 
+var path = require("path");
+
 // Importing the data from database files.
 const usersRoutes = require("./routes/usersRoutes");
 const postsRoutes = require("./routes/postsRoutes");
@@ -22,10 +24,12 @@ app.use("/api/users", usersRoutes);
 app.use("/api/posts", postsRoutes);
 app.use("/api/comments", commentsRoutes)
 
-
+// rendering views with ejs
+app.set("view engine", "ejs");
+app.use(express.static(path.join(__dirname, "styles")));
 
 app.get("/", (req, res) => {
-    res.send("Home Page");
+    res.render("index");
 });
 
 // Custom 404 (not found) middleware.
